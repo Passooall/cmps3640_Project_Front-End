@@ -26,10 +26,14 @@
         } elseif(strlen($passwrd)<8 || strlen($passwrd)>20){
             //if password does not meet criteria display error
             echo '<span style="color:red;text-align:center;">Password must between 8 and 20 characters</span>';
-        } else{
+        } elseif($passwrd!=$repasswrd){
+            //if passwords dont match display error
+            echo '<span style="color:red;text-align:center;">Passwords must match</span>';
+        }else{
             //create random user id
            $user_id = random_num(20);
             //encrypt password
+            $salt=salt($passwrd);
             $pass = hash('sha256', $passwrd.$salt);
             //store user info into database
             $query = "INSERT INTO USER (First, Last, Password, uID, Email) VALUES ($fName, $lName, $pass, $user_id, $email);";
@@ -43,20 +47,6 @@
         }
     }
 ?>
-
-<script type="text/javascript">
-    var check = function() {
-      if (document.getElementById('inputPassword').value ==
-        document.getElementById('repassword').value) {
-        document.getElementById('message1').innerHTML = '';
-        return true;
-      } else {
-        document.getElementById('message1').style.color = 'red';
-        document.getElementById('message1').innerHTML = 'Password and re-password are not matching';
-        return false;
-      }
-    }
-</script>
 
 <html lang="en">
     <head>
