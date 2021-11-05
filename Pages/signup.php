@@ -1,6 +1,7 @@
 <?php
     //connect to database
     include("connect.php");
+    include("functions.php");
     //check if connection is made
     if(mysqli_connect_errno())
     {
@@ -22,16 +23,16 @@
         if(mysqli_num_rows($query) != 0){
             //if in use display error
             echo '<span style="color:red;text-align:center;">E-mail is already registered</span>';
-        } elseif(strlen($passwrd)<8 || !alphanum($passwrd)){
+        } elseif(strlen($passwrd)<8 || strlen($passwrd)>20){
             //if password does not meet criteria display error
-            echo '<span style="color:red;text-align:center;">Password must contain at least 8 characters of only A-Z, a-z, or 0-9</span>';
+            echo '<span style="color:red;text-align:center;">Password must between 8 and 20 characters</span>';
         } else{
             //create random user id
            $user_id = random_num(20);
             //encrypt password
             $pass = hash('sha256', $passwrd.$salt);
             //store user info into database
-            $query = "INSERT INTO USER (First, Last, Password, uID, Email) VALUES ($fName, $lName, $pass, $user_id, $email);"
+            $query = "INSERT INTO USER (First, Last, Password, uID, Email) VALUES ($fName, $lName, $pass, $user_id, $email);";
             if(mysqli_query($db, $query)){
                 //go to login page if successful
                 header("Location: login.php");

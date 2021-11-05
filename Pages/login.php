@@ -61,7 +61,7 @@
                 <button formaction="" class="btn btn-lg btn-primary btn-block" type="submit">
                     Login
                 </button>
-                <a href="signUp.php" class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top:30">
+                <a href="signup.php" class="btn btn-lg btn-primary btn-block" type="submit" style="margin-top:30">
                     Sign up
                 </a>
             </form>
