@@ -1,7 +1,7 @@
 <?php
     //connect to database
-    include("connect.php");
-    include("functions.php");
+include("connect.php");
+include("functions.php");
     //check if connection is made
     if(mysqli_connect_errno())
     {
@@ -25,26 +25,26 @@
             echo '<span style="color:red;text-align:center;">E-mail is already registered</span>';
         } elseif(strlen($passwrd)<8 || strlen($passwrd)>20){
             //if password does not meet criteria display error
-            echo '<span style="color:red;text-align:center;">Password must between 8 and 20 characters</span>';
-        } elseif($passwrd!=$repasswrd){
-            //if passwords dont match display error
-            echo '<span style="color:red;text-align:center;">Passwords must match</span>';
-        }else{
+            echo '<span style="color:red;text-align:center;">Password must be between 8 and 20 characters</span>';
+	} elseif($passwrd!=$repasswrd){
+	    //if passwords do not match
+            echo '<span style="color:red;text-align:center;">Passwords do not match</span>';
+	}else{
             //create random user id
-           $user_id = random_num(20);
-            //encrypt password
-            $salt=salt($passwrd);
+            $user_id = random_num();
+	    //encrypt password
+	    $salt=salt($passwrd);
             $pass = hash('sha256', $passwrd.$salt);
             //store user info into database
-            $query = "INSERT INTO USER (First, Last, Password, uID, Email) VALUES ($fName, $lName, $pass, $user_id, $email);";
+            $query = "INSERT INTO USER (First, Last, uID, Email, Pass) VALUES ('$fName', '$lName', $user_id, '$email', '$pass');";
             if(mysqli_query($db, $query)){
                 //go to login page if successful
                 header("Location: login.php");
             }else{
-                //display error is cannot be stored
-                echo '<span style="color:red;text-align:center;">ERROR: Could not execute sql</span>';
+		    //display error is cannot be stored
+		    echo '<span style="color:red;text-align:center;">ERROR: Could not execute sql</span>';
             }
-        }
+	}
     }
 ?>
 

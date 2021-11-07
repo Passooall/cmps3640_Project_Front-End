@@ -2,7 +2,8 @@
     session_start();
 
     //connect to database
-    include("connect.php");
+include("connect.php");
+include("functions.php");
     if(mysqli_connect_errno())
     {
         //display error if connection cant be made
@@ -14,13 +15,13 @@
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $email = $_POST['email'];
-        $passwrd = $_POST['password'];
+	$password = $_POST['password'];
 
-        $salt = salt($passwrd);
-        $pass = hash('sha256', $passwrd.$salt);
+        $salt = salt($password);
+	$pass = hash('sha256', $password.$salt);
 
         //check to see if user is in database
-        $query = mysqli_query($db, "SELECT Email, Password FROM USER WHERE Email='".$email."' AND Password='".$pass."'");
+        $query = mysqli_query($db, "SELECT Email, Pass FROM USER WHERE Email='".$email."' AND Pass='".$pass."'");
     
         if(mysqli_num_rows($query) > 0)
         {
@@ -30,7 +31,7 @@
             header('Location: home.php');
         }else{
             //display error if not found
-            echo "incorrect email or password";
+            echo "Incorrect password or email";
         }
     }
 ?>
@@ -57,7 +58,7 @@
                 <label for="inputPassword" class="sr-only">
                     Password
                 </label>
-                <input type="password" name="passwrd" class="form-control" style="margin-bottom:20" placeholder="Password" required="">
+                <input type="password" name="password" class="form-control" style="margin-bottom:20" placeholder="Password" required="">
                 <button formaction="" class="btn btn-lg btn-primary btn-block" type="submit">
                     Login
                 </button>
