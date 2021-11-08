@@ -15,10 +15,9 @@ include("functions.php");
     if($_SERVER['REQUEST_METHOD'] == "POST")
     {
         $email = $_POST['email'];
-	$password = $_POST['password'];
+	    $password = $_POST['password'];
 
-        $salt = salt($password);
-	$pass = hash('sha256', $password.$salt);
+        $pass = encrypt($password);
 
         //check to see if user is in database
         $query = mysqli_query($db, "SELECT Email, Pass FROM USER WHERE Email='".$email."' AND Pass='".$pass."'");

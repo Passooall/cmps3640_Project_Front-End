@@ -30,20 +30,19 @@ include("functions.php");
 	    //if passwords do not match
             echo '<span style="color:red;text-align:center;">Passwords do not match</span>';
 	}else{
-            //create random user id
-            $user_id = random_num();
+        //create random user id
+        $user_id = id_gen();
 	    //encrypt password
-	    $salt=salt($passwrd);
-            $pass = hash('sha256', $passwrd.$salt);
-            //store user info into database
-            $query = "INSERT INTO USER (First, Last, uID, Email, Pass) VALUES ('$fName', '$lName', $user_id, '$email', '$pass');";
-            if(mysqli_query($db, $query)){
-                //go to login page if successful
-                header("Location: login.php");
-            }else{
-		    //display error is cannot be stored
-		    echo '<span style="color:red;text-align:center;">ERROR: Could not execute sql</span>';
-            }
+	    $pass=encrypt($passwrd);
+        //store user info into database
+        $query = "INSERT INTO USER (First, Last, uID, Email, Pass) VALUES ('$fName', '$lName', $user_id, '$email', '$pass');";
+        if(mysqli_query($db, $query)){
+        //go to login page if successful
+        header("Location: login.php");
+        }else{
+		//display error is cannot be stored
+		echo '<span style="color:red;text-align:center;">ERROR: Could not execute sql</span>';
+        }
 	}
     }
 ?>
