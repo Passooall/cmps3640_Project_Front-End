@@ -44,11 +44,11 @@ include("functions.php");
         <meta name="description" content="The login page for the cmps3640 project">
         <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
     </head>
-    <body class="text-center" style="background-color: white;">
-        <div class="box" >
-            <form method="post" class="form-signin">            
-                <h1 style="margin-bottom:40px; font-family:sans-serif;">CMPS3640: Notification System</h1>
-                <h1 class="h3 mb-3 font-weight-normal">
+    <body class="text-center" style="background-color:#152530;">
+        <div class="container-sm" >
+            <form method="post" class="form-signin m-4 p-4" style="background-color:white;">            
+                <h1 class="p-2">CMPS3640: Notification System</h1><hr>
+                <h1 class="h3 p-3 font-weight-normal">
                     Please Login
                 </h1>
                 <label for="inputEmail" class="sr-only">

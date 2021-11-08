@@ -22,6 +22,28 @@
     $uID = $row["uID"];
 
     $query2 = "SELECT * FROM IS_SUBBED WHERE User_ID='".$uID."'";
+
+    if($_SERVER["REQUEST_METHOD"]=="POST")
+    {
+	    switch($_POST['button']){
+	    	case 'add':
+		    	$sID = $_POST['AsID'];
+			$check = mysqli_query($db, "SELECT * FROM SUBBED_TO WHERE User_ID=$uID AND Section_ID=$sID");
+			if(mysqli_num_rows($check) != 0){
+				echo '<span style="color:red;text=align:center;">ALREADY PART OF THIS GROUP</span>';
+			} else {
+				$query3 = "INSERT INTO SUBBED_TO (User_ID, Section_ID) VALUE ($uID, $sID)";
+				mysqli_query($db, $query3);
+			}	
+			break;
+		case 'remove':
+			$sID = $_POST['RsID'];
+			$query3 = "DELETE FROM SUBBED_TO WHERE User_ID=$uID AND Section_ID=$sID";
+			mysqli_query($db, $query3);
+			break;
+	    }
+    }
+  
 ?>
 
 <html lang='en'>
@@ -32,7 +54,7 @@
         <meta name="description" content="The signup page for the cmps3640 project">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
     </head>
-    <body style="background-color:#cfcfcf;">
+    <body style="background-color:#152530">
 	<div class="container-fluid"> 
 		<div class="row m-4" style="background-color:white;">
 			<div class="col-sm-8 m-4"> <h3>Hello <?php echo $fName." ".$lName?></h3> </div>
@@ -48,22 +70,72 @@
 					<?php
 						if($result=$db->query($query2)){
 							while($row=$result->fetch_assoc()){
-								$gName = $row["gName"];
+								$sName = $row["sName"];
 
 								echo '<tr>
-									<td>'.$gName.'</td>
-								     </tr>';
+									<td>'.$sName.'</td>
+								     </tr><br>';
 							}
 							$result->free();
 						}
 					?>
-					<br>
-					<a href="#" type="button" class="mt-4 btn btn-outline-primary">Add Groups</a>
+					<hr>
+					<form method='post'>
+					<div class="row align-items-center">
+						<div class="col">
+						<label for="AsID" class="sr-only"> Add Section ID</label>
+						<select name="AsID">
+							<option disabled selected value>-- Choose Group to Add --</option>
+							<?php
+							    $sql=mysqli_query($db, "SELECT Name, sID FROM SECTIONS");
+							    while($row=$sql->fetch_assoc())
+							    {
+								    $AsID = $row['sID'];
+								    echo "<option value='".$AsID."'>".$row["Name"]."</option>";
+							    }
+    							?>
+						</select>
+						</div>
+						<div class="col">
+							<button type="submit" name=button value="add" class="mt-1 btn btn-outline-primary btn-sm" >Add Groups</button>
+						</div>
+					</div>
+					<hr>
+					<div class="row align-items-center">
+						<div class="col">
+						<label for="RsID" class="sr-only"> Remove Section ID</label>
+						<select name="RsID">
+							<option disabled selected value>-- Choose Group to Remove --</option>
+							<?php
+							    $sql=mysqli_query($db, "SELECT sName, sID FROM IS_SUBBED WHERE User_ID=$uID");
+							    while($row=$sql->fetch_assoc())
+							    {
+								    $RsID = $row['sID'];
+								    echo "<option value='".$RsID."'>".$row["sName"]."</option>";
+							    }
+    							?>
+						</select>
+						</div>
+						<div class="col">
+							<button type="submit" name="button" value="remove" class="mt-1 btn btn-outline-primary btn-sm">Remove Groups</button>
+						</div>
+					</div>
+					</form>
 				</div>
 			</div>
 			<div class="col-7 align-self-start m-2" style="background-color:white;">
 				<div class="m-2">
 					<b> Notifications</b><a href="#" class="">  Send Notificaiton </a><hr>
+				<div class="container border border-secondary border-2 rounded">
+					<p>From: Example Group1</p>
+					<p>This is an example notification</p>
+				</div>
+				<br>
+				<div class="container border border-secondary border-2 rounded">
+					<p>From: Example Group2</p>
+					<p>This is an example notification</p>
+				</div>
+
 				</div>
 			</div>
 		</div>

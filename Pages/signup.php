@@ -57,11 +57,12 @@ include("functions.php");
         <meta name="viewport" content="width=device-width, initial-scale=1.0 shrink-to-fit=no">
     </head>
   
-    <body class="text-center" style="background-color: white;">
+    <body class="text-center" style="background-color:#152530;">
   
-        <div class="box" >
-            <form method="post" class="form-signin">
-                <h1 style="margin-bottom:30">CMPS3640: Notification System</h1>
+        <div class="container-sm" >
+            <form method="post" class="form-signin p-4" style="background-color:white;">
+		<h1 style="p-2">CMPS3640: Notification System</h1><hr>
+		<h1 class="h3 p-2 font-weight-normal">Sign up</h1>
                 <label for="fName" class="sr-only">
                     First Name
                 </label>
@@ -103,3 +104,4 @@ include("functions.php");
     </body>
 
   </html>
+
