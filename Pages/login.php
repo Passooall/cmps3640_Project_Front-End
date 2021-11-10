@@ -17,10 +17,8 @@ include("functions.php");
         $email = $_POST['email'];
 	    $password = $_POST['password'];
 
-        $pass = encrypt($password);
-
         //check to see if user is in database
-        $query = mysqli_query($db, "SELECT Email, Pass FROM USER WHERE Email='".$email."' AND Pass='".$pass."'");
+        $query = login($password, $email, $db);
     
         if(mysqli_num_rows($query) > 0)
         {

@@ -17,33 +17,34 @@ include("functions.php");
         $email = $_POST['email'];
         $passwrd = $_POST['passwrd'];
         $repasswrd = $_POST['repasswrd'];
+        $user_id=id_gen($db);
 
         //Check to see if email is already in use
-        $query = mysqli_query($db, "SELECT Email FROM USER WHERE Email='".$email."'");
-        if(mysqli_num_rows($query) != 0){
+        $query1 = mysqli_query($db, "SELECT Email FROM USER WHERE Email='".$email."'");
+        if(mysqli_num_rows($query1) != 0){
             //if in use display error
             echo '<span style="color:red;text-align:center;">E-mail is already registered</span>';
         } elseif(strlen($passwrd)<8 || strlen($passwrd)>20){
             //if password does not meet criteria display error
             echo '<span style="color:red;text-align:center;">Password must be between 8 and 20 characters</span>';
-	} elseif($passwrd!=$repasswrd){
-	    //if passwords do not match
+	    } elseif($passwrd!=$repasswrd){
+	        //if passwords do not match
             echo '<span style="color:red;text-align:center;">Passwords do not match</span>';
-	}else{
-        //create random user id
-        $user_id = id_gen();
-	    //encrypt password
-	    $pass=encrypt($passwrd);
-        //store user info into database
-        $query = "INSERT INTO USER (First, Last, uID, Email, Pass) VALUES ('$fName', '$lName', $user_id, '$email', '$pass');";
-        if(mysqli_query($db, $query)){
-        //go to login page if successful
-        header("Location: login.php");
-        }else{
-		//display error is cannot be stored
-		echo '<span style="color:red;text-align:center;">ERROR: Could not execute sql</span>';
-        }
-	}
+	    }else{
+            //create random user id
+            $user_id = id_gen();
+	        //encrypt password
+	        $pass=encrypt($passwrd);
+            //store user info into database
+            $query = "INSERT INTO USER (First, Last, uID, Email, Pass) VALUES ('$fName', '$lName', $user_id, '$email', '$pass');";
+            if(mysqli_query($db, $query)){
+                //go to login page if successful
+                header("Location: login.php");
+            }else{
+		        //display error is cannot be stored
+		    echo '<span style="color:red;text-align:center;">ERROR: Could not execute sql</span>';
+            }
+	    }
     }
 ?>
 
